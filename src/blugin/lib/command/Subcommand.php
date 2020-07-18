@@ -43,13 +43,16 @@ abstract class Subcommand{
 
     /**
      * @param MainCommand $mainCommand
-     * @param string      $name
-     * @param array       $aliases
+     * @param null|string $name = null
+     * @param null|array  $aliases = null
      */
-    public function __construct(MainCommand $mainCommand, string $name, array $aliases){
+    public function __construct(MainCommand $mainCommand, ?string $name = null, ?array $aliases = null){
         $this->mainCommand = $mainCommand;
-        $this->name = $name;
-        $this->aliases = $aliases;
+
+        $label = $this->getLabel();
+        $config = $mainCommand->getOwningPlugin()->getConfig();
+        $this->name = $name ?? $config->getNested("command.children.$label.name", $label);
+        $this->aliases = $aliases ?? $config->getNested("command.children.$label.aliases", []);
     }
 
     /**
