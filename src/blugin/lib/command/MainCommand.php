@@ -76,7 +76,7 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
      * @return bool
      */
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
-        $label = array_shift($args);
+        $label = array_shift($args) ?? "";
         foreach($this->subcommands as $key => $subcommand){
             if($subcommand->checkLabel($label)){
                 $subcommand->handle($sender, $args);
