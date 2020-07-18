@@ -58,14 +58,14 @@ abstract class Subcommand{
     /**
      * @param CommandSender $sender
      * @param string[]      $args = []
+     *
+     * @return bool
      */
-    public function handle(CommandSender $sender, array $args = []) : void{
+    public function handle(CommandSender $sender, array $args = []) : bool{
         if(!$this->testPermission($sender))
-            return;
+            return true;
 
-        if(!$this->execute($sender, $args)){
-            $this->mainCommand->sendMessage($sender, "commands.generic.usage", [$this->getUsage()]);
-        }
+        return $this->execute($sender, $args);
     }
 
     /**
