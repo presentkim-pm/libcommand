@@ -101,6 +101,15 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
         return $sender->getLanguage()->translateString($str, $params);
     }
 
+    /**
+     * @param CommandSender          $sender
+     * @param string                 $str
+     * @param float[]|int[]|string[] $params
+     */
+    public function sendMessage(CommandSender $sender, string $str, array $params = []) : void{
+        $sender->sendMessage($this->getMessage($sender, $str, $params));
+    }
+
     /** @return Subcommand[] */
     public function getSubcommands() : array{
         return $this->subcommands;

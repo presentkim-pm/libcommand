@@ -61,7 +61,7 @@ abstract class Subcommand{
             return;
 
         if(!$this->execute($sender, $args)){
-            $sender->sendMessage($this->mainCommand->getMessage($sender, "commands.generic.usage", [$this->getUsage()]));
+            $this->mainCommand->sendMessage($sender, "commands.generic.usage", [$this->getUsage()]);
         }
     }
 
@@ -74,7 +74,7 @@ abstract class Subcommand{
         if($sender->hasPermission($this->getPermission()))
             return true;
 
-        $sender->sendMessage($this->mainCommand->getMessage($sender, TextFormat::RED . "%commands.generic.permission"));
+        $this->mainCommand->sendMessage($sender, TextFormat::RED . "%commands.generic.permission");
         return false;
     }
 
