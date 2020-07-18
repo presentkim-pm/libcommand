@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace blugin\lib\command;
 
+use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
@@ -47,6 +48,12 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
     public function __construct(string $name, PluginBase $owner){
         parent::__construct($name);
         $this->owningPlugin = $owner;
+
+        if($owner instanceof LanguageHolder){
+            $label = strtolower($owner->getName());
+            $this->setUsage($owner->getLanguage()->translate("commands.$label.usage"));
+            $this->setDescription($owner->getLanguage()->translate("commands.$label.description"));
+        }
     }
 
     /**
@@ -87,6 +94,10 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
      * @return string
      */
     public function getMessage(CommandSender $sender, string $str, array $params = []) : string{
+        if($this->owningPlugin instanceof LanguageHolder){
+            return $this->owningPlugin->getLanguage()->translate($str, $params);
+        }
+
         return $sender->getLanguage()->translateString($str, $params);
     }
 
