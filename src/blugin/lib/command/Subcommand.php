@@ -29,10 +29,9 @@ namespace blugin\lib\command;
 
 use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\CommandSender;
-use pocketmine\plugin\PluginOwned;
 use pocketmine\utils\TextFormat;
 
-abstract class Subcommand implements PluginOwned{
+abstract class Subcommand{
     /** @var MainCommand */
     private $mainCommand;
 
