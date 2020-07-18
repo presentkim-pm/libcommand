@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace blugin\lib\command;
 
+use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\utils\TextFormat;
@@ -117,6 +118,16 @@ abstract class Subcommand implements PluginOwned{
         return $this->mainCommand->getPermission() . "." . $this->getLabel();
     }
 
+    /** @return string */
+    public function getUsage() : string{
+        $plugin = $this->mainCommand->getOwningPlugin();
+        if($plugin instanceof LanguageHolder){
+            $label = strtolower($plugin->getName());
+            return $plugin->getLanguage()->translate("commands.$label.{$this->getLabel()}.usage");
+        }
+        return "";
+    }
+
     /**
      * @param CommandSender $sender
      * @param string[]      $args = []
@@ -127,7 +138,4 @@ abstract class Subcommand implements PluginOwned{
 
     /** @return string */
     public abstract function getLabel() : string;
-
-    /** @return string */
-    public abstract function getUsage() : string;
 }
