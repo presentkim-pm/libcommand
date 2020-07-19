@@ -27,6 +27,12 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception;
 
+use blugin\lib\command\exception\defaults\GenericInvalidBlockException;
+use blugin\lib\command\exception\defaults\GenericInvalidItemException;
+use blugin\lib\command\exception\defaults\GenericInvalidNumberException;
+use blugin\lib\command\exception\defaults\GenericInvalidPlayerException;
+use blugin\lib\command\exception\defaults\InvalidSyntaxException;
+use blugin\lib\command\exception\defaults\GenericInvalidWorldException;
 use blugin\lib\command\MainCommand;
 use blugin\lib\command\Subcommand;
 use DaveRandom\CallbackValidator\BuiltInTypes;
@@ -47,6 +53,14 @@ class ExceptionHandler{
     /** @param MainCommand $mainCommand */
     public function __construct(MainCommand $mainCommand){
         $this->mainCommand = $mainCommand;
+
+        //Register default handlers
+        $this->register(InvalidSyntaxException::class);
+        $this->register(GenericInvalidBlockException::class);;
+        $this->register(GenericInvalidItemException::class);;
+        $this->register(GenericInvalidNumberException::class);
+        $this->register(GenericInvalidPlayerException::class);;
+        $this->register(GenericInvalidWorldException::class);
     }
 
     /**

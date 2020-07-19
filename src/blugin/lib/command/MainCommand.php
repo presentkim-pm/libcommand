@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command;
 
-use blugin\lib\command\exception\defaults\InvalidSyntaxException;
 use blugin\lib\command\exception\ExceptionHandler;
 use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\Command;
@@ -55,7 +54,6 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
         parent::__construct($name);
         $this->owningPlugin = $owner;
         $this->exceptionHandler = new ExceptionHandler($this);
-        $this->exceptionHandler->register(InvalidSyntaxException::class);
 
         if($owner instanceof LanguageHolder){
             $label = strtolower($owner->getName());
