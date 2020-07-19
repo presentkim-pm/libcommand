@@ -25,8 +25,10 @@
 
 declare(strict_types=1);
 
-namespace blugin\lib\command;
+namespace blugin\lib\command\exception;
 
+use blugin\lib\command\MainCommand;
+use blugin\lib\command\Subcommand;
 use DaveRandom\CallbackValidator\BuiltInTypes;
 use DaveRandom\CallbackValidator\CallbackType;
 use DaveRandom\CallbackValidator\ParameterType;
@@ -34,7 +36,7 @@ use DaveRandom\CallbackValidator\ReturnType;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\Utils;
 
-class ErrorHandler{
+class ExceptionHandler{
     /** @var MainCommand */
     private $mainCommand;
 
