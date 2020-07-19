@@ -27,9 +27,9 @@ declare(strict_types=1);
 
 namespace blugin\lib\command;
 
+use blugin\lib\command\exception\InvalidSyntaxException;
 use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\CommandSender;
-use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\utils\TextFormat;
 
 abstract class Subcommand{
@@ -66,7 +66,7 @@ abstract class Subcommand{
         if(!$this->testPermission($sender) || $this->$this->execute($sender, $args))
             return true;
 
-        throw new InvalidCommandSyntaxException();
+        throw new InvalidSyntaxException();
     }
 
     /**
