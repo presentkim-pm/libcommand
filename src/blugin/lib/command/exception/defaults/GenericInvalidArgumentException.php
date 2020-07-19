@@ -31,9 +31,8 @@ use blugin\lib\command\exception\IHandleable;
 use blugin\lib\command\MainCommand;
 use blugin\lib\command\Subcommand;
 use pocketmine\command\CommandSender;
-use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-abstract class GenericInvalidArgumentException extends InvalidCommandSyntaxException implements IHandleable{
+abstract class GenericInvalidArgumentException extends \InvalidArgumentException implements IHandleable{
     const LABEL = "";
 
     public static function getHandler() : \Closure{
