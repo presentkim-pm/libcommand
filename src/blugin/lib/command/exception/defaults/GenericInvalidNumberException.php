@@ -27,6 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-class GenericInvalidNumberException extends GenericInvalidArgumentException{
-    const LABEL = "Number";
+class GenericInvalidNumberException extends GenericArgumentException{
+    const LABEL = "invalidNumber";
 }

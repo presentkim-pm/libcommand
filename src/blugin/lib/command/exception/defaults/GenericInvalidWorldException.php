@@ -27,6 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-class GenericInvalidWorldException extends GenericInvalidArgumentException{
-    const LABEL = "World";
+class GenericInvalidWorldException extends GenericArgumentException{
+    const LABEL = "invalidWorld";
 }

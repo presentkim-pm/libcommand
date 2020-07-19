@@ -27,6 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-class GenericInvalidItemException extends GenericInvalidArgumentException{
-    const LABEL = "Item";
+class GenericInvalidItemException extends GenericArgumentException{
+    const LABEL = "invalidItem";
 }

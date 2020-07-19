@@ -27,6 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-class GenericInvalidPlayerException extends GenericInvalidArgumentException{
-    const LABEL = "Player";
+class GenericInvalidPlayerException extends GenericArgumentException{
+    const LABEL = "invalidPlayer";
 }
