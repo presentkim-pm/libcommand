@@ -61,7 +61,7 @@ class ExceptionHandler{
         if(!isset($this->handlers[$className]))
             return false;
 
-        $this->handlers[$className]($exception, $sender, $subcommand, $this);
+        $this->handlers[$className]($exception, $sender, $subcommand, $this->mainCommand);
         return true;
     }
 
