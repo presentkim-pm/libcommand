@@ -37,7 +37,7 @@ abstract class GenericInvalidArgumentException extends InvalidCommandSyntaxExcep
     const LABEL = "";
 
     public static function getHandler() : \Closure{
-        return function(GenericInvalidWorldException $e, CommandSender $sender, Subcommand $subcommand, MainCommand $mainCommand) : void{
+        return function(GenericInvalidArgumentException $e, CommandSender $sender, Subcommand $subcommand, MainCommand $mainCommand) : void{
             $mainCommand->sendMessage($sender, "commands.generic.invalid" . self::LABEL, [$e->getMessage()]);
         };
     }
