@@ -44,21 +44,20 @@ trait SubcommandTrait{
     }
 
     /**
-     * Register Main command
+     * Create command
      *
      * @param string|null $label
      *
      * @return MainCommand
      */
-    public function registerCommand(?string $label = null) : MainCommand{
+    public function createCommand(?string $label = null) : MainCommand{
         $label = trim(strtolower($label ?? $this->getName()));
         /** @noinspection PhpParamsInspection */
-        $this->mainCommand = new MainCommand($label, $this);
-        $this->mainCommand->setPermission("$label.cmd");
-        $this->mainCommand->setAliases($this->getConfig()->getNested("command.aliases", []));
+        $command = new MainCommand($label, $this);
+        $command->setPermission("$label.cmd");
+        $command->setAliases($this->getConfig()->getNested("command.aliases", []));
 
-        $this->getServer()->getCommandMap()->register($this->getName(), $this->mainCommand);
-        return $this->mainCommand;
+        return $command;
     }
 
     public function recalculatePermissions() : void{
@@ -77,5 +76,6 @@ trait SubcommandTrait{
                 $permissions["$mainPermission.$label"]->setDefault($defaultValue);
             }
         }
+    }
     }
 }
