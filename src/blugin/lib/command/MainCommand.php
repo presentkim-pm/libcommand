@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace blugin\lib\command;
 
+use blugin\lib\command\exception\ExceptionHandler;
 use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
@@ -42,8 +43,8 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
     /** @var Subcommand[] */
     private $subcommands = [];
 
-    /** @var ErrorHandler */
-    private $errorHander;
+    /** @var ExceptionHandler */
+    private $exceptionHandler;
 
     /**
      * @param string     $name
@@ -52,8 +53,8 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
     public function __construct(string $name, PluginBase $owner){
         parent::__construct($name);
         $this->owningPlugin = $owner;
-        $this->errorHander = new ErrorHandler($this);
-        $this->errorHander->register(InvalidCommandSyntaxException::class, function(InvalidCommandSyntaxException $e, CommandSender $sender, Subcommand $subcommand) : void{
+        $this->exceptionHandler = new ExceptionHandler($this);
+        $this->exceptionHandler->register(InvalidCommandSyntaxException::class, function(InvalidCommandSyntaxException $e, CommandSender $sender, Subcommand $subcommand) : void{
             $sender->sendMessage($sender->getLanguage()->translateString("commands.generic.usage", [$subcommand->getUsage()]));
         });
 
@@ -94,7 +95,7 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
                 try{
                     $subcommand->handle($sender, $args);
                 }catch(\Exception $e){
-                    if(!$this->errorHander->handle($e, $sender, $subcommand))
+                    if(!$this->exceptionHandler->handle($e, $sender, $subcommand))
                         throw $e;
                 }
                 return true;
@@ -150,8 +151,8 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
         return false;
     }
 
-    /** @return ErrorHandler */
-    public function getErrorHander() : ErrorHandler{
-        return $this->errorHander;
+    /** @return ExceptionHandler */
+    public function getExceptionHandler() : ExceptionHandler{
+        return $this->exceptionHandler;
     }
 }
