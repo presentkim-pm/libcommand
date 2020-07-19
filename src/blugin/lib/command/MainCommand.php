@@ -27,7 +27,7 @@ declare(strict_types=1);
 
 namespace blugin\lib\command;
 
-use blugin\lib\command\exception\InvalidSyntaxException;
+use blugin\lib\command\exception\defaults\InvalidSyntaxException;
 use blugin\lib\command\exception\ExceptionHandler;
 use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\Command;

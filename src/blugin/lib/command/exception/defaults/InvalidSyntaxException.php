@@ -25,8 +25,9 @@
 
 declare(strict_types=1);
 
-namespace blugin\lib\command\exception;
+namespace blugin\lib\command\exception\defaults;
 
+use blugin\lib\command\exception\IHandleable;
 use blugin\lib\command\Subcommand;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
