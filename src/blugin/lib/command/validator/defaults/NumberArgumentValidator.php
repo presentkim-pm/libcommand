@@ -28,6 +28,8 @@ declare(strict_types=1);
 namespace blugin\lib\command\validator\defaults;
 
 use blugin\lib\command\exception\defaults\GenericInvalidNumberException;
+use blugin\lib\command\exception\defaults\GenericNumberTooBigException;
+use blugin\lib\command\exception\defaults\GenericNumberTooSmallException;
 use blugin\lib\command\validator\ArgumentValidator;
 
 class NumberArgumentValidator implements ArgumentValidator{
@@ -43,5 +45,49 @@ class NumberArgumentValidator implements ArgumentValidator{
             throw new GenericInvalidNumberException($argument);
 
         return (float) $argument;
+    }
+
+    /**
+     * @param string $argument
+     * @param float  $min
+     *
+     * @return float
+     *
+     * @throw \Exception
+     */
+    public static function validateMin(string $argument, float $min) : float{
+        $num = self::validate($argument);
+        if($min !== null && $num < $min)
+            throw new GenericNumberTooSmallException("$num", "$min");
+        return $num;
+    }
+
+    /**
+     * @param string $argument
+     * @param float  $max
+     *
+     * @return float
+     *
+     * @throw \Exception
+     */
+    public static function validateMax(string $argument, float $max) : float{
+        $num = self::validate($argument);
+        if($max !== null && $num > $max)
+            throw new GenericNumberTooBigException("$num", "$max");
+        return $num;
+    }
+
+    /**
+     * @param string $argument
+     * @param float  $min
+     * @param float  $max
+     *
+     * @return float
+     *
+     * @throw \Exception
+     */
+    public static function validateRange(string $argument, float $min, float $max) : float{
+        self::validateMin($argument, $min);
+        return self::validateMax($argument, $max);
     }
 }

@@ -31,8 +31,10 @@ use blugin\lib\command\exception\defaults\GenericInvalidBlockException;
 use blugin\lib\command\exception\defaults\GenericInvalidItemException;
 use blugin\lib\command\exception\defaults\GenericInvalidNumberException;
 use blugin\lib\command\exception\defaults\GenericInvalidPlayerException;
-use blugin\lib\command\exception\defaults\InvalidSyntaxException;
 use blugin\lib\command\exception\defaults\GenericInvalidWorldException;
+use blugin\lib\command\exception\defaults\GenericNumberTooBigException;
+use blugin\lib\command\exception\defaults\GenericNumberTooSmallException;
+use blugin\lib\command\exception\defaults\InvalidSyntaxException;
 use blugin\lib\command\MainCommand;
 use blugin\lib\command\Subcommand;
 use DaveRandom\CallbackValidator\BuiltInTypes;
@@ -41,7 +43,6 @@ use DaveRandom\CallbackValidator\ParameterType;
 use DaveRandom\CallbackValidator\ReturnType;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\Utils;
-use Webmozart\Assert\Assert;
 
 class ExceptionHandler{
     /** @var MainCommand */
@@ -61,6 +62,8 @@ class ExceptionHandler{
         $this->register(GenericInvalidNumberException::class);
         $this->register(GenericInvalidPlayerException::class);;
         $this->register(GenericInvalidWorldException::class);
+        $this->register(GenericNumberTooBigException::class);
+        $this->register(GenericNumberTooSmallException::class);
     }
 
     /**
@@ -80,7 +83,7 @@ class ExceptionHandler{
     }
 
     /**
-     * @param string   $className
+     * @param string        $className
      * @param null|\Closure $handlerFunc \Closure(\Exception $e, CommandSender $sender, Subcommand $subcommand, MainCommand $command)
      */
     public function register(string $className, ?\Closure $handlerFunc = null) : void{
