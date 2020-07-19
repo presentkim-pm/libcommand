@@ -27,18 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-use blugin\lib\command\exception\IValidatable;
-use pocketmine\item\LegacyStringToItemParser;
-
-class GenericInvalidItemException extends GenericInvalidArgumentException implements IValidatable{
+class GenericInvalidItemException extends GenericInvalidArgumentException{
     const LABEL = "Item";
-
-    /** @inheritDoc */
-    public static function validate(string $argument) : void{
-        try{
-            LegacyStringToItemParser::getInstance()->parse($argument);
-        }catch(\InvalidArgumentException $e){
-            throw new GenericInvalidItemException($argument);
-        }
-    }
 }

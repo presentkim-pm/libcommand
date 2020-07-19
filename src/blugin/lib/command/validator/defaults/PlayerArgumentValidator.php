@@ -25,8 +25,26 @@
 
 declare(strict_types=1);
 
-namespace blugin\lib\command\exception\defaults;
+namespace blugin\lib\command\validator\defaults;
 
-class GenericInvalidBlockException extends GenericInvalidArgumentException{
-    const LABEL = "Block";
+use blugin\lib\command\exception\defaults\GenericInvalidPlayerException;
+use blugin\lib\command\validator\ArgumentValidator;
+use pocketmine\player\Player;
+use pocketmine\Server;
+
+class PlayerArgumentValidator implements ArgumentValidator{
+    /**
+     * @param string $argument
+     *
+     * @return Player
+     *
+     * @throw \Exception
+     */
+    public static function validate(string $argument) : Player{
+        $player = Server::getInstance()->getPlayer($argument);
+        if($player === null)
+            throw new GenericInvalidPlayerException($argument);
+
+        return $player;
+    }
 }

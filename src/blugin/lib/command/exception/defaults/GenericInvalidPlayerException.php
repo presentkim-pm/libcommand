@@ -27,15 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-use blugin\lib\command\exception\IValidatable;
-use pocketmine\Server;
-
-class GenericInvalidPlayerException extends GenericInvalidArgumentException implements IValidatable{
+class GenericInvalidPlayerException extends GenericInvalidArgumentException{
     const LABEL = "Player";
-
-    /** @inheritDoc */
-    public static function validate(string $argument) : void{
-        if(Server::getInstance()->getPlayer($argument) === null)
-            throw new GenericInvalidPlayerException($argument);
-    }
 }

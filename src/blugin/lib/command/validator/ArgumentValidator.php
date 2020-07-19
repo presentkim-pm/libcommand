@@ -25,8 +25,15 @@
 
 declare(strict_types=1);
 
-namespace blugin\lib\command\exception\defaults;
+namespace blugin\lib\command\validator;
 
-class GenericInvalidBlockException extends GenericInvalidArgumentException{
-    const LABEL = "Block";
+interface ArgumentValidator{
+    /**
+     * @param string $argument
+     *
+     * @retrun mixed
+     *
+     * @throw \Exception
+     */
+    public static function validate(string $argument);
 }
