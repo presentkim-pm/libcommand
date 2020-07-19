@@ -42,6 +42,9 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
     /** @var Subcommand[] */
     private $subcommands = [];
 
+    /** @var ErrorHandler */
+    private $errorHander;
+
     /**
      * @param string     $name
      * @param PluginBase $owner
@@ -49,6 +52,10 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
     public function __construct(string $name, PluginBase $owner){
         parent::__construct($name);
         $this->owningPlugin = $owner;
+        $this->errorHander = new ErrorHandler($this);
+        $this->errorHander->register(InvalidCommandSyntaxException::class, function(CommandSender $sender, Subcommand $subcommand) : void{
+            $sender->sendMessage($sender->getLanguage()->translateString("commands.generic.usage", [$subcommand->getUsage()]));
+        });
 
         if($owner instanceof LanguageHolder){
             $label = strtolower($owner->getName());
@@ -63,6 +70,8 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
      * @param string[]      $args
      *
      * @return bool
+     *
+     * @throws \Exception
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
         return $this->owningPlugin->isEnabled() && $this->testPermission($sender) && $this->onCommand($sender, $this, $commandLabel, $args);
@@ -75,13 +84,18 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
      * @param string[]      $args
      *
      * @return bool
+     *
+     * @throws \Exception
      */
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
         $label = array_shift($args) ?? "";
         foreach($this->subcommands as $key => $subcommand){
             if($subcommand->checkLabel($label)){
-                if(!$subcommand->handle($sender, $args)){
-                    $sender->sendMessage($sender->getLanguage()->translateString("commands.generic.usage", [$subcommand->getUsage()]));
+                try{
+                    $subcommand->handle($sender, $args);
+                }catch(\Exception $e){
+                    if(!$this->errorHander->handle($e, $sender, $subcommand))
+                        throw $e;
                 }
                 return true;
             }
@@ -134,5 +148,10 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
             return true;
         }
         return false;
+    }
+
+    /** @return ErrorHandler */
+    public function getErrorHander() : ErrorHandler{
+        return $this->errorHander;
     }
 }
