@@ -35,6 +35,7 @@ use DaveRandom\CallbackValidator\ParameterType;
 use DaveRandom\CallbackValidator\ReturnType;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\Utils;
+use Webmozart\Assert\Assert;
 
 class ExceptionHandler{
     /** @var MainCommand */
@@ -66,10 +67,18 @@ class ExceptionHandler{
 
     /**
      * @param string   $className
-     * @param \Closure $handlerFunc \Closure(\Exception $e, CommandSender $sender, Subcommand $subcommand, MainCommand $command)
+     * @param null|\Closure $handlerFunc \Closure(\Exception $e, CommandSender $sender, Subcommand $subcommand, MainCommand $command)
      */
-    public function register(string $className, \Closure $handlerFunc) : void{
+    public function register(string $className, ?\Closure $handlerFunc = null) : void{
         Utils::testValidInstance($className, \Exception::class);
+        if($handlerFunc === null){
+            $instance = new $className();
+            if($instance instanceof IHandleable){
+                $handlerFunc = $instance::getHandler();
+            }else{
+                throw new \TypeError("$className is Not instanceof IHandleable. Must require '\\Closure \$handerFunc' parameter.");
+            }
+        }
         $sig = new CallbackType(
             new ReturnType(BuiltInTypes::VOID),
             new ParameterType("e", \Exception::class, ParameterType::COVARIANT),
