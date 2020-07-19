@@ -27,15 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-use blugin\lib\command\exception\IValidatable;
-use pocketmine\Server;
-
-class GenericInvalidWorldException extends GenericInvalidArgumentException implements IValidatable{
+class GenericInvalidWorldException extends GenericInvalidArgumentException{
     const LABEL = "World";
-
-    /** @inheritDoc */
-    public static function validate(string $argument) : void{
-        if(Server::getInstance()->getWorldManager()->getWorldByName($argument) === null)
-            throw new GenericInvalidWorldException($argument);
-    }
 }

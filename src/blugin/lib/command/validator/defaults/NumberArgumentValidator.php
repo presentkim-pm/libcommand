@@ -25,13 +25,23 @@
 
 declare(strict_types=1);
 
-namespace blugin\lib\command\exception;
+namespace blugin\lib\command\validator\defaults;
 
-interface IValidatable{
+use blugin\lib\command\exception\defaults\GenericInvalidNumberException;
+use blugin\lib\command\validator\ArgumentValidator;
+
+class NumberArgumentValidator implements ArgumentValidator{
     /**
      * @param string $argument
      *
+     * @return float
+     *
      * @throw \Exception
      */
-    public static function validate(string $argument) : void;
+    public static function validate(string $argument) : float{
+        if(!is_numeric($argument))
+            throw new GenericInvalidNumberException($argument);
+
+        return (float) $argument;
+    }
 }

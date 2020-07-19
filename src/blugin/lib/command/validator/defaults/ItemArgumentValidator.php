@@ -25,8 +25,26 @@
 
 declare(strict_types=1);
 
-namespace blugin\lib\command\exception\defaults;
+namespace blugin\lib\command\validator\defaults;
 
-class GenericInvalidBlockException extends GenericInvalidArgumentException{
-    const LABEL = "Block";
+use blugin\lib\command\exception\defaults\GenericInvalidItemException;
+use blugin\lib\command\validator\ArgumentValidator;
+use pocketmine\item\Item;
+use pocketmine\item\LegacyStringToItemParser;
+
+class ItemArgumentValidator implements ArgumentValidator{
+    /**
+     * @param string $argument
+     *
+     * @return Item
+     *
+     * @throw \Exception
+     */
+    public static function validate(string $argument) : Item{
+        try{
+            return LegacyStringToItemParser::getInstance()->parse($argument);
+        }catch(\InvalidArgumentException $e){
+            throw new GenericInvalidItemException($argument);
+        }
+    }
 }

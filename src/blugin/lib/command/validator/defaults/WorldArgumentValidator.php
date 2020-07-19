@@ -25,8 +25,26 @@
 
 declare(strict_types=1);
 
-namespace blugin\lib\command\exception\defaults;
+namespace blugin\lib\command\validator\defaults;
 
-class GenericInvalidBlockException extends GenericInvalidArgumentException{
-    const LABEL = "Block";
+use blugin\lib\command\exception\defaults\GenericInvalidWorldException;
+use blugin\lib\command\validator\ArgumentValidator;
+use pocketmine\Server;
+use pocketmine\world\World;
+
+class WorldArgumentValidator implements ArgumentValidator{
+    /**
+     * @param string $argument
+     *
+     * @return World
+     *
+     * @throw \Exception
+     */
+    public static function validate(string $argument) : World{
+        $world = Server::getInstance()->getWorldManager()->getWorldByName($argument);
+        if($world === null)
+            throw new GenericInvalidWorldException($argument);
+
+        return $world;
+    }
 }
