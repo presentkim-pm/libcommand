@@ -29,6 +29,7 @@ namespace blugin\lib\command;
 
 use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\CommandSender;
+use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\utils\TextFormat;
 
 abstract class Subcommand{
@@ -62,10 +63,10 @@ abstract class Subcommand{
      * @return bool
      */
     public function handle(CommandSender $sender, array $args = []) : bool{
-        if(!$this->testPermission($sender))
+        if(!$this->testPermission($sender) || $this->$this->execute($sender, $args))
             return true;
 
-        return $this->execute($sender, $args);
+        throw new InvalidCommandSyntaxException();
     }
 
     /**
