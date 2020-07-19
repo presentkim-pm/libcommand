@@ -34,7 +34,7 @@ use blugin\lib\command\exception\defaults\GenericInvalidPlayerException;
 use blugin\lib\command\exception\defaults\GenericInvalidWorldException;
 use blugin\lib\command\exception\defaults\GenericNumberTooBigException;
 use blugin\lib\command\exception\defaults\GenericNumberTooSmallException;
-use blugin\lib\command\exception\defaults\InvalidSyntaxException;
+use blugin\lib\command\exception\defaults\ArgumentLackException;
 use blugin\lib\command\MainCommand;
 use blugin\lib\command\Subcommand;
 use DaveRandom\CallbackValidator\BuiltInTypes;
@@ -56,7 +56,7 @@ class ExceptionHandler{
         $this->mainCommand = $mainCommand;
 
         //Register default handlers
-        $this->register(InvalidSyntaxException::class);
+        $this->register(ArgumentLackException::class);
         $this->register(GenericInvalidBlockException::class);;
         $this->register(GenericInvalidItemException::class);;
         $this->register(GenericInvalidNumberException::class);
