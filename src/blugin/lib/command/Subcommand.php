@@ -69,6 +69,15 @@ abstract class Subcommand{
     }
 
     /**
+     * @param CommandSender          $sender
+     * @param string                 $str
+     * @param float[]|int[]|string[] $params
+     */
+    public function sendMessage(CommandSender $sender, string $str, array $params = []) : void{
+        $sender->sendMessage($this->getMainCommand()->getMessage($sender, $this->getFullMessage($str), $params));
+    }
+
+    /**
      * @param CommandSender $sender
      *
      * @return bool
