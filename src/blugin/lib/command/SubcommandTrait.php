@@ -85,5 +85,16 @@ trait SubcommandTrait{
             }
         }
     }
+
+    public function onLoad() : void{
+        $this->getMainCommand();
+    }
+
+    public function onEnable() : void{
+        $this->getServer()->getCommandMap()->register($this->getName(), $this->getMainCommand());
+    }
+
+    public function onDisble() : void{
+        $this->getServer()->getCommandMap()->unregister($this->getMainCommand());
     }
 }
