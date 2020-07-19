@@ -27,6 +27,14 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-class GenericInvalidNumberException extends GenericInvalidArgumentException{
+use blugin\lib\command\exception\IValidatable;
+
+class GenericInvalidNumberException extends GenericInvalidArgumentException implements IValidatable{
     const LABEL = "Number";
+
+    /** @inheritDoc */
+    public static function validate(string $argument) : void{
+        if(!is_numeric($argument))
+            throw new GenericInvalidNumberException($argument);
+    }
 }

@@ -29,4 +29,5 @@ namespace blugin\lib\command\exception\defaults;
 
 class GenericInvalidBlockException extends GenericInvalidArgumentException{
     const LABEL = "Block";
+    //TODO : validate check
 }
