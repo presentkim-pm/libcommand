@@ -70,7 +70,7 @@ class ErrorHandler{
         Utils::testValidInstance($className, \Exception::class);
         $sig = new CallbackType(
             new ReturnType(BuiltInTypes::VOID),
-            new ParameterType("e", \Exception::class),
+            new ParameterType("e", \Exception::class, ParameterType::COVARIANT),
             new ParameterType("sender", CommandSender::class),
             new ParameterType("subcommand", Subcommand::class, ParameterType::NULLABLE | ParameterType::OPTIONAL | ParameterType::COVARIANT),
             new ParameterType("command", MainCommand::class, ParameterType::NULLABLE | ParameterType::OPTIONAL | ParameterType::COVARIANT)
