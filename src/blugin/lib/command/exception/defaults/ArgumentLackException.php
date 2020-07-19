@@ -32,9 +32,9 @@ use blugin\lib\command\Subcommand;
 use pocketmine\command\CommandSender;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
 
-class InvalidSyntaxException extends InvalidCommandSyntaxException implements IHandleable{
+class ArgumentLackException extends InvalidCommandSyntaxException implements IHandleable{
     public static function getHandler() : \Closure{
-        return function(InvalidSyntaxException $e, CommandSender $sender, Subcommand $subcommand) : void{
+        return function(ArgumentLackException $e, CommandSender $sender, Subcommand $subcommand) : void{
             $sender->sendMessage($sender->getLanguage()->translateString("commands.generic.usage", [$subcommand->getUsage()]));
         };
     }
