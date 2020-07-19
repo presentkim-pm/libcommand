@@ -95,7 +95,7 @@ class ExceptionHandler{
         }
         $sig = new CallbackType(
             new ReturnType(BuiltInTypes::VOID),
-            new ParameterType("e", $className, ParameterType::COVARIANT),
+            new ParameterType("e", \Exception::class, ParameterType::COVARIANT),
             new ParameterType("sender", CommandSender::class),
             new ParameterType("subcommand", Subcommand::class,ParameterType::COVARIANT | ParameterType::OPTIONAL),
             new ParameterType("command", MainCommand::class,  ParameterType::COVARIANT | ParameterType::OPTIONAL)
