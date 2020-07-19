@@ -124,10 +124,19 @@ abstract class Subcommand{
     public function getUsage() : string{
         $plugin = $this->mainCommand->getOwningPlugin();
         if($plugin instanceof LanguageHolder){
-            $label = strtolower($plugin->getName());
-            return $plugin->getLanguage()->translate("commands.$label.{$this->getLabel()}.usage");
+            return $plugin->getLanguage()->translate($this->getFullMessage("usage"));
         }
         return "";
+    }
+
+    /**
+     * @param string $str
+     *
+     * @return string
+     */
+    public function getFullMessage(string $str) : string{
+        $label = strtolower($this->mainCommand->getOwningPlugin()->getName());
+        return "commands.$label.{$this->getLabel()}.$str";
     }
 
     /**
