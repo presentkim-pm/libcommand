@@ -63,7 +63,7 @@ abstract class Subcommand{
      * @return bool
      */
     public function handle(CommandSender $sender, array $args = []) : bool{
-        if(!$this->testPermission($sender) || $this->$this->execute($sender, $args))
+        if(!$this->testPermission($sender) || $this->execute($sender, $args))
             return true;
 
         throw new InvalidSyntaxException();
