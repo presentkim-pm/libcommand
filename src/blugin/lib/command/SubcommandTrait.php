@@ -38,8 +38,16 @@ trait SubcommandTrait{
     /** @var MainCommand */
     private $mainCommand;
 
-    /** @return MainCommand */
-    public function getMainCommand() : MainCommand{
+    /**
+     * @param string|null $label
+     *
+     * @return MainCommand
+     */
+    public function getMainCommand(?string $label = null) : MainCommand{
+        if($this->mainCommand === null){
+            $this->mainCommand = $this->createCommand($label);
+        }
+
         return $this->mainCommand;
     }
 
