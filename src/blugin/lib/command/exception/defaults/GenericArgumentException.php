@@ -32,12 +32,12 @@ use blugin\lib\command\MainCommand;
 use blugin\lib\command\Subcommand;
 use pocketmine\command\CommandSender;
 
-abstract class GenericInvalidArgumentException extends \InvalidArgumentException implements IHandleable{
+abstract class GenericArgumentException extends \InvalidArgumentException implements IHandleable{
     const LABEL = "";
 
     public static function getHandler() : \Closure{
-        return function(GenericInvalidArgumentException $e, CommandSender $sender, Subcommand $subcommand, MainCommand $mainCommand) : void{
-            $mainCommand->sendMessage($sender, "commands.generic.invalid" . $e::LABEL, $e->getArgs());
+        return function(GenericArgumentException $e, CommandSender $sender, Subcommand $subcommand, MainCommand $mainCommand) : void{
+            $mainCommand->sendMessage($sender, "commands.generic." . $e::LABEL, $e->getArgs());
         };
     }
 
@@ -45,7 +45,7 @@ abstract class GenericInvalidArgumentException extends \InvalidArgumentException
 
     /** @param string ...$args */
     public function __construct(string ...$args){
-        parent::__construct("generic invalid argument exception");
+        parent::__construct("generic argument exception");
         $this->args = $args;
     }
 

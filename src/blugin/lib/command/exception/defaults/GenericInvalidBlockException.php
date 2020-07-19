@@ -27,6 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command\exception\defaults;
 
-class GenericInvalidBlockException extends GenericInvalidArgumentException{
-    const LABEL = "Block";
+class GenericInvalidBlockException extends GenericArgumentException{
+    const LABEL = "invalidBlock";
 }
