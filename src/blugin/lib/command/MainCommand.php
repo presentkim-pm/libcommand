@@ -53,7 +53,7 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
         parent::__construct($name);
         $this->owningPlugin = $owner;
         $this->errorHander = new ErrorHandler($this);
-        $this->errorHander->register(InvalidCommandSyntaxException::class, function(InvalidCommandSyntaxException $e, CommandSender $sender, ?Subcommand $subcommand) : void{
+        $this->errorHander->register(InvalidCommandSyntaxException::class, function(InvalidCommandSyntaxException $e, CommandSender $sender, Subcommand $subcommand) : void{
             $sender->sendMessage($sender->getLanguage()->translateString("commands.generic.usage", [$subcommand->getUsage()]));
         });
 

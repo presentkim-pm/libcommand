@@ -72,8 +72,8 @@ class ErrorHandler{
             new ReturnType(BuiltInTypes::VOID),
             new ParameterType("e", \Exception::class, ParameterType::COVARIANT),
             new ParameterType("sender", CommandSender::class),
-            new ParameterType("subcommand", Subcommand::class, ParameterType::NULLABLE | ParameterType::OPTIONAL | ParameterType::COVARIANT),
-            new ParameterType("command", MainCommand::class, ParameterType::NULLABLE | ParameterType::OPTIONAL | ParameterType::COVARIANT)
+            new ParameterType("subcommand", Subcommand::class,ParameterType::COVARIANT | ParameterType::OPTIONAL),
+            new ParameterType("command", MainCommand::class,  ParameterType::COVARIANT | ParameterType::OPTIONAL)
         );
         if(!$sig->isSatisfiedBy($handlerFunc)){
             throw new \TypeError("Declaration of callable `" . CallbackType::createFromCallable($handlerFunc) . "` must be compatible with `" . $sig . "`");
