@@ -37,7 +37,20 @@ abstract class GenericInvalidArgumentException extends \InvalidArgumentException
 
     public static function getHandler() : \Closure{
         return function(GenericInvalidArgumentException $e, CommandSender $sender, Subcommand $subcommand, MainCommand $mainCommand) : void{
-            $mainCommand->sendMessage($sender, "commands.generic.invalid" . $e::LABEL, [$e->getMessage()]);
+            $mainCommand->sendMessage($sender, "commands.generic.invalid" . $e::LABEL, $e->getArgs());
         };
+    }
+
+    protected $args = [];
+
+    /** @param string ...$args */
+    public function __construct(string ...$args){
+        parent::__construct("generic invalid argument exception");
+        $this->args = $args;
+    }
+
+    /** @return string[] */
+    public function getArgs() : array{
+        return $this->args;
     }
 }
