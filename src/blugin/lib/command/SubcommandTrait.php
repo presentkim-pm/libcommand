@@ -73,13 +73,13 @@ trait SubcommandTrait{
         $config = $this->getConfig();
 
         $mainPermission = $this->mainCommand->getPermission();
-        $defaultValue = $config->getNested("permission.main", Permission::DEFAULT_FALSE);
+        $defaultValue = $config->getNested("command.permission");
         if($defaultValue !== null){
             $permissions[$mainPermission]->setDefault($config->getNested("permission.main"));
         }
         foreach($this->mainCommand->getSubcommands() as $key => $subcommand){
             $label = $subcommand->getLabel();
-            $defaultValue = $config->getNested("permission.children.$label", Permission::DEFAULT_FALSE);
+            $defaultValue = $config->getNested("command.children.$label.permission");
             if($defaultValue !== null){
                 $permissions["$mainPermission.$label"]->setDefault($defaultValue);
             }
