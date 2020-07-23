@@ -30,6 +30,8 @@ namespace blugin\lib\command;
 use blugin\lib\command\exception\defaults\ArgumentLackException;
 use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\CommandSender;
+use pocketmine\permission\Permission;
+use pocketmine\permission\PermissionManager;
 use pocketmine\utils\TextFormat;
 
 abstract class Subcommand{
@@ -54,6 +56,9 @@ abstract class Subcommand{
         $config = $mainCommand->getOwningPlugin()->getConfig();
         $this->name = $name ?? $config->getNested("command.children.$label.name", $label);
         $this->aliases = $aliases ?? $config->getNested("command.children.$label.aliases", []);
+
+        $permissionManager = PermissionManager::getInstance();
+        $permissionManager->addPermission(new Permission($this->getPermission(), $this->mainCommand->getUsage(), $permissionManager->getPermission($mainCommand->getPermission())->getDefault()));
     }
 
     /**
