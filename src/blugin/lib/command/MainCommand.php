@@ -32,7 +32,6 @@ use blugin\lib\lang\LanguageHolder;
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
-use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\plugin\PluginBase;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\PluginOwnedTrait;
@@ -98,7 +97,28 @@ class MainCommand extends Command implements PluginOwned, CommandExecutor{
                 return true;
             }
         }
-        throw new InvalidCommandSyntaxException();
+        $sender->sendMessage($sender->getLanguage()->translateString("commands.generic.usage", [$this->getUsage($sender)]));
+        return true;
+    }
+
+    /**
+     * Override for display different usage messages depending on player permissions
+     *
+     * @param CommandSender|null $sender
+     *
+     * @return string
+     */
+    public function getUsage(CommandSender $sender = null) : string{
+        if($sender === null || !$this->owningPlugin instanceof LanguageHolder)
+            return $this->usageMessage;
+
+        $subCommands = [];
+        foreach($this->subcommands as $key => $subCommand){
+            if($subCommand->testPermissionSilent($sender)){
+                $subCommands[] = $subCommand->getLabel();
+            }
+        }
+        return $this->getMessage($sender, "commands.chunkloader.usage", [implode(" | ", $subCommands)]);
     }
 
     /**
