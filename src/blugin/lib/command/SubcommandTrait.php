@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace blugin\lib\command;
 
-use pocketmine\permission\Permission;
 use pocketmine\permission\PermissionManager;
 use pocketmine\plugin\PluginBase;
 
@@ -69,19 +68,18 @@ trait SubcommandTrait{
     }
 
     public function recalculatePermissions() : void{
-        $permissions = PermissionManager::getInstance()->getPermissions();
+        $permissionManager = PermissionManager::getInstance();
         $config = $this->getConfig();
 
-        $mainPermission = $this->mainCommand->getPermission();
         $defaultValue = $config->getNested("command.permission");
         if($defaultValue !== null){
-            $permissions[$mainPermission]->setDefault($config->getNested("permission.main"));
+            $permissionManager->getPermission($this->mainCommand->getPermission())->setDefault($defaultValue);
         }
         foreach($this->mainCommand->getSubcommands() as $key => $subcommand){
             $label = $subcommand->getLabel();
             $defaultValue = $config->getNested("command.children.$label.permission");
             if($defaultValue !== null){
-                $permissions["$mainPermission.$label"]->setDefault($defaultValue);
+                $permissionManager->getPermission($subcommand->getPermission())->setDefault($defaultValue);
             }
         }
     }
