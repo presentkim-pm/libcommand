@@ -84,11 +84,20 @@ abstract class Subcommand{
      * @return bool
      */
     public function testPermission(CommandSender $sender) : bool{
-        if($sender->hasPermission($this->getPermission()))
+        if($this->testPermissionSilent($sender))
             return true;
 
         $this->mainCommand->sendMessage($sender, TextFormat::RED . "%commands.generic.permission");
         return false;
+    }
+
+    /**
+     * @param CommandSender $sender
+     *
+     * @return bool
+     */
+    public function testPermissionSilent(CommandSender $sender) : bool{
+        return $sender->hasPermission($this->getPermission());
     }
 
     /**
